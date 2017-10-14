@@ -45,7 +45,7 @@ def alphabet_build(lan_list):
     for key, value in lan_dict.items():
         if lan_dict[key] <= 10:
             lan_dict.pop(key)
-    #print len(lan_dict)
+    print len(lan_dict)
     return lan_dict
 
 def index_builder():
@@ -64,6 +64,11 @@ def index_builder():
     for key,item in dict_merged.items():
         letter_index[key] = index
         index += 1
+    print len(letter_index)
     return letter_index
+
+
+
+
 
 

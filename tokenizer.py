@@ -4,6 +4,7 @@
 import re
 import csv
 import sys
+from sklearn.preprocessing import OneHotEncoder
 
 DATASET_TRAIN_X = 'data/train_set_x.csv'
 DATASET_TRAIN_Y = ''
@@ -37,5 +38,9 @@ def data_tokenizer():
             row = [row[0], text_cleaned]
             w_csv.writerow(row)
 
+import numpy as np
+enc = OneHotEncoder()
+x=np.asarray([[1],[2],[3]])
 
-data_tokenizer()
+x=enc.fit_transform(x)
+print x

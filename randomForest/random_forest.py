@@ -1,6 +1,7 @@
 # coding=utf-8
+
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
-from sklearn.naive_bayes import MultinomialNB
 
 from utils import alphabet_former
 
@@ -8,7 +9,7 @@ TRAIN_FILE = "../data/train_set_0.8"
 TEST_FILE = "../data/test_set_0.2"
 # TRAIN_FILE = "../data/dataset_labeled"
 # TEST_FILE = "../data/test_set_x.csv"
-PREDICTION = "predictions_3.csv"
+PREDICTION = "predictions.csv"
 def vectorzier(line):
     letters = line.split(' ')
     letters = letters[0:min(len(letters), 20)]
@@ -39,9 +40,8 @@ with open(TRAIN_FILE,"r") as train_reader:
         X_train.append(line_vector)
         y_train.append(int(lang))
 
-clf = MultinomialNB()
+clf = RandomForestClassifier(n_estimators=50)
 clf.fit(X_train, y_train)
-MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
 
 
 

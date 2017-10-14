@@ -1,14 +1,16 @@
-# coding=utf-8
-from sklearn.metrics import accuracy_score
-from sklearn.naive_bayes import MultinomialNB
+from __future__ import print_function
 
+from keras.models import Sequential
+from keras.layers import Dense, Dropout, Activation
+from sklearn.preprocessing import OneHotEncoder
 from utils import alphabet_former
 
 TRAIN_FILE = "../data/train_set_0.8"
 TEST_FILE = "../data/test_set_0.2"
 # TRAIN_FILE = "../data/dataset_labeled"
 # TEST_FILE = "../data/test_set_x.csv"
-PREDICTION = "predictions_3.csv"
+PREDICTION = "predictions.csv"
+
 def vectorzier(line):
     letters = line.split(' ')
     letters = letters[0:min(len(letters), 20)]
@@ -39,12 +41,6 @@ with open(TRAIN_FILE,"r") as train_reader:
         X_train.append(line_vector)
         y_train.append(int(lang))
 
-clf = MultinomialNB()
-clf.fit(X_train, y_train)
-MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
-
-
-
 #--------prediction--------------
 with open(TEST_FILE,"r") as test_reader:
     test_reader.readline()
@@ -54,20 +50,31 @@ with open(TEST_FILE,"r") as test_reader:
         line_vector = vectorzier(line)
         X_test.append(line_vector)
         y_test.append(int(lang))
-#----------------------------------
-# with open(TEST_FILE,"r") as test_reader:
-#     for line in test_reader:
-#         line = line.split(",")[1]
-#         line_vector = vectorzier(line)
-#         X_test.append(line_vector)
 
-predictions = clf.predict(X_test)
-print accuracy_score(y_test, predictions)
+# set parameters:
+max_features = 108
+maxlen = 1
+batch_size = 32
+embedding_dims = 50
+filters = 250
+kernel_size = 3
+hidden_dims = 50
+epochs = 2
 
 
-# print len(X_test)
-# with open(PREDICTION, 'w+') as prediction_writer:
-#     cnt = 0
-#     for prediction in predictions:
-#         prediction_writer.writelines(str(cnt) + ',' + str(prediction) + '\n')
-#         cnt += 1
+print(len(X_train), 'train sequences')
+print(len(X_test), 'test sequences')
+
+
+print('Build model...')
+
+model = Sequential()
+model.add(Dense(8, input_dim=4, activation='relu'))
+model.add(Dense(5, activation='softmax'))
+# Compile model
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.fit(X_train, y_train,
+          batch_size=batch_size,
+          epochs=epochs,
+          validation_data=(X_test, y_test))
+
