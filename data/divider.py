@@ -8,7 +8,7 @@ while True:
 print count
 thefile.close( )
 
-read_x = open('train_set_x_cleaned.csv','r')
+read_x = open('train_set_x_cleaned_nothing.csv','r')
 read_y = open('train_set_y.csv')
 writefile_train = open('train_set_0.8','w+')
 writefile_test = open('test_set_0.2','w+')

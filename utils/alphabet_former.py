@@ -1,6 +1,7 @@
 # coding=utf-8
 #some code to separate the language from one another in order to better encode them
-X = open("../data/train_set_x_cleaned.csv","r")
+import math
+X = open("../data/train_set_x_cleaned_nothing.csv","r")
 Y = open("../data/train_set_y.csv","r")
 #get rid of the first line
 Slovak = []
@@ -8,6 +9,7 @@ French = []
 Spanish = []
 German = []
 Polish = []
+All = []
 X.readline()
 Y.readline()
 #use 1/5 of the data as validation set
@@ -15,6 +17,7 @@ for line in X:
     lang = ((Y.readline()).split(","))[1]
     line = (line.split(",")[1])
     #0: Slovak, 1: French, 2: Spanish, 3: German, 4: Polish
+    All.append(line)
     if(int(lang) == 0):
         Slovak.append(line)
     elif (int(lang) == 1):
@@ -66,6 +69,26 @@ def index_builder():
         index += 1
     print len(letter_index)
     return letter_index
+
+def idf_builder(letter_index):
+    idf_list = [0]*len(letter_index)
+    D = len(All)
+    # print D
+    for line in All:
+        list_tmp = [0]*len(letter_index)
+        chars = line.split()
+        for char in chars:
+            if letter_index.has_key(char):
+                list_tmp[letter_index[char]] = 1
+        idf_list = map(lambda (a, b): a + b, zip(idf_list, list_tmp))
+    print idf_list
+    for i in xrange(len(idf_list)):
+        idf_list[i] = math.log(float(D) / (idf_list[i] + 1))
+
+    print idf_list
+    return idf_list
+
+
 
 
 

@@ -1,69 +1,37 @@
 # coding=utf-8
 from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import MultinomialNB
-
+from sklearn.metrics import confusion_matrix
 from utils import alphabet_former
-
+from utils import reader
 TRAIN_FILE = "../data/train_set_0.8"
 TEST_FILE = "../data/test_set_0.2"
 # TRAIN_FILE = "../data/dataset_labeled"
 # TEST_FILE = "../data/test_set_x.csv"
 PREDICTION = "predictions_3.csv"
-def vectorzier(line):
-    letters = line.split(' ')
-    letters = letters[0:min(len(letters), 20)]
-    letter_vector = [0] * len(letter_index)
-    for letter in letters:
-        if letter_index.has_key(letter):
-            letter_vector[letter_index[letter]] += 1
-    return letter_vector
 
-X_train = []
-X_test = []
-y_train = []
-y_test = []
+
+
 letter_index = alphabet_former.index_builder()
 
+# read data
+data_reader = reader.Reader(TRAIN_FILE, TEST_FILE, letter_index)
+X_train, y_train = data_reader.read_train()
+X_test, y_test= data_reader.read_test(1)
 
-with open(TRAIN_FILE,"r") as train_reader:
-    train_reader.readline()
-    while 1:
-        line = train_reader.readline()
-        if not line:
-            break
-        (lang,line) = line.split(",")[0], line.split(",")[1]
-
-        if len(line)<=1:
-            continue
-        line_vector = vectorzier(line)
-        X_train.append(line_vector)
-        y_train.append(int(lang))
-
+# model definition
 clf = MultinomialNB()
 clf.fit(X_train, y_train)
 MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
 
 
-
-#--------prediction--------------
-with open(TEST_FILE,"r") as test_reader:
-    test_reader.readline()
-    for line in test_reader:
-        lang = line.split(",")[0]
-        line = line.split(",")[1]
-        line_vector = vectorzier(line)
-        X_test.append(line_vector)
-        y_test.append(int(lang))
-#----------------------------------
-# with open(TEST_FILE,"r") as test_reader:
-#     for line in test_reader:
-#         line = line.split(",")[1]
-#         line_vector = vectorzier(line)
-#         X_test.append(line_vector)
-
+# prediction
 predictions = clf.predict(X_test)
-print accuracy_score(y_test, predictions)
 
+#      evaluate
+print accuracy_score(y_test, predictions)
+cm = confusion_matrix(y_test, predictions)
+print(cm)
 
 # print len(X_test)
 # with open(PREDICTION, 'w+') as prediction_writer:

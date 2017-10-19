@@ -8,7 +8,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 DATASET_TRAIN_X = 'data/train_set_x.csv'
 DATASET_TRAIN_Y = ''
-DATASET_TRAIN_X_CLEANED = 'data/train_set_x_cleaned.csv'
+DATASET_TRAIN_X_CLEANED = 'data/train_set_x_cleaned_nothing.csv'
 
 
 def data_cleaner(text):
@@ -22,9 +22,9 @@ def data_cleaner(text):
         u"(\ud83d[\ude80-\udeff])|"  # transport & map symbols
         u"(\ud83c[\udde0-\uddff])"  # flags (iOS)
         "+", flags=re.UNICODE)
-    text_clean = emoji_pattern.sub(r'', text_unicode)  # no emoji
-    text_clean = re.sub(r'[^\w+]', '', text_clean, flags=re.UNICODE) #no symbol
-    return text_clean#.encode('utf-8')
+    #text_clean = emoji_pattern.sub(r'', text_unicode)  # no emoji
+    #text_clean = re.sub(r'[^\w+]', '', text_clean, flags=re.UNICODE) #no symbol
+    return text_unicode#.encode('utf-8')
 
 
 def data_tokenizer():
@@ -38,9 +38,4 @@ def data_tokenizer():
             row = [row[0], text_cleaned]
             w_csv.writerow(row)
 
-import numpy as np
-enc = OneHotEncoder()
-x=np.asarray([[1],[2],[3]])
-
-x=enc.fit_transform(x)
-print x
+data_tokenizer()
