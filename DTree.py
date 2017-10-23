@@ -3,7 +3,7 @@
 """
 Created on Sun Oct 22 14:53:58 2017
 
-@author: Admin
+@author: Ksenia
 """
 
 import math
@@ -193,14 +193,6 @@ import numpy as np
 import math as m
 import random as ran
 NEW_TRAIN_X = open("train08.csv","r")
-
-#X = NEW_TRAIN_X.readlines()
-#Y = NEW_TRAIN_Y.readlines()
-#NEW_TRAIN_X.close()
-#NEW_TRAIN_Y.close()
-#NEW_TRAIN_X = open("train_set_x.csv","r")
-#NEW_TRAIN_Y = open("train_set_y.csv","r")
-#alphabet for all languages
 
 French = []
 Spanish = []
@@ -442,76 +434,5 @@ TA=0
 FA=FC/(FC+FN)
 SA=SC/(SC+SN)
 TA=(FC+SC)/(FC+SC+FN+SN)
-        
-
     
-
-#VALIDATION = open("test02.csv","r")
-#
-#numberlines=0
-#countright=0
-#classify=''
-#langprob=0
-#for lineY in VALIDATION:
-#    numberlines=numberlines+1
-#    
-#    lang=lineY[0]
-#    text=(lineY.split(",")[1])
-#    
-#    chars = text.split()                    
-#
-#    for char in chars:
-#        if char == 'e':
-#            langprob=langprob+1
-#            
-#    if langprob>0:
-#        classify='1'
-#    else:
-#        classify='2'
-#        
-#                
-#    if classify == lang:
-#        countright = countright + 1
-#        
-#
-#numberlines=numberlines*1.00
-#countright=countright*1.00
-#
-#accuracy=countright/numberlines
-
-##draw with replacement
-#def bootstrap(datasetX, datasetY):
-#    output = []
-#    for i in range(0,len(X)):
-#        number = ran.randint(0,(len(Y)-1))
-#        lineX = X[number]
-#        lineY = Y[number]
-#        output.append((lineY.split(","))[1].replace("\n", "")+','+(lineX.split(","))[1].replace("\n", ""))
-#        
-#bootstraps = []
-#for i in range(200):
-#    bootstraps.append(bootstrap(X,Y))        
-#NEW_TRAIN_X.close()
-#NEW_TRAIN_Y.close()
-
-
-
-#for each random forest :) 
-#let m = M/2 = len(Alphabet)/2
-#use an array to represent a tree left child = 2k, right child = 2k+1 , root = 1
-#m = len(Alphabet)/2
-#for i in range(len(bootstraps)):
-#    features = []
-#    for k in range(m):
-#        features.append(randint(0,(len(Alphabet)-1)))
-#    for j in range(m):
-#        pos = 0
-#        neg = 0
-#        for l in range(len(bootstraps[0])):
-#            bootstraps[i][l].find(features[j])
-            
-            
-            
-    
-        
     
