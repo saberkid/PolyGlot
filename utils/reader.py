@@ -1,5 +1,5 @@
 import numpy as np
-
+import random
 class Reader:
     def __init__(self,train_file, test_file, letter_index):
         self.train_file = train_file
@@ -9,6 +9,7 @@ class Reader:
 
     def vectorizer(self, line, mode=0): # 1: limit length to 20
         letters = line.split(' ')
+        random.shuffle(letters)
         if mode:
             letters = letters[0:min(len(letters), 20)]
         letter_vector = [0] * len(self.letter_index)
@@ -21,6 +22,18 @@ class Reader:
 
         return letter_vector
 
+    def vectorizer_lang(self,line, alphabet_list):
+        letters = line.split(' ')
+        letter_vector_lang = [0] * len(self.line)
+        for i in xrange(len(letters)):
+            bit = 0.5
+            for alphabet in alphabet_list:
+                bit *= 2
+                if alphabet.has_key(letters[i]):
+                    letter_vector_lang[i] += bit
+        return letter_vector_lang
+
+
     def read_train(self):
         X_train = []
         y_train = []
@@ -31,9 +44,9 @@ class Reader:
                     break
                 (lang,line) = line.split(",")[0], line.split(",")[1]
 
-                if len(line)<=1:
-                    continue
-                line_vector = self.vectorizer(line)
+                # if len(line)<20:
+                #     continue
+                line_vector = self.vectorizer(line,1)
                 X_train.append(line_vector)
                 y_train.append(int(lang))
         X_train, y_train = np.asarray(X_train), np.asarray(y_train)
@@ -47,7 +60,7 @@ class Reader:
                 for line in test_reader:
                     lang = line.split(",")[0]
                     line = line.split(",")[1]
-                    line_vector = self.vectorizer(line,0)
+                    line_vector = self.vectorizer(line,1)
                     X_test.append(line_vector)
                     y_test.append(int(lang))
                 X_test, y_test = np.asarray(X_test), np.asarray(y_test)
@@ -55,7 +68,29 @@ class Reader:
             else:
                 for line in test_reader:
                         line = line.split(",")[1]
-                        line_vector = self.vectorizer(line)
+                        line_vector = self.vectorizer(line,1)
                         X_test.append(line_vector)
                 X_test = np.asarray(X_test)
                 return X_test
+
+    def read_test_lang(self,alphabet_list, mode=1):
+        X_test = []
+        y_test = []
+        with open(self.test_file, "r") as test_reader:
+            if mode:
+                for line in test_reader:
+                    lang = line.split(",")[0]
+                    line = line.split(",")[1]
+                    line_vector = self.vectorizer_lang(line, alphabet_list)
+                    X_test.append(line_vector)
+                    y_test.append(int(lang))
+                X_test, y_test = np.asarray(X_test), np.asarray(y_test)
+                return X_test, y_test
+            else:
+                for line in test_reader:
+                    line = line.split(",")[1]
+                    line_vector = self.vectorizer(line)
+                    X_test.append(line_vector)
+                X_test = np.asarray(X_test)
+                return X_test
+

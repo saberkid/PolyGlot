@@ -15,7 +15,7 @@ TRAIN_FILE = "../data/train_set_0.8"
 TEST_FILE = "../data/test_set_0.2"
 # TRAIN_FILE = "../data/dataset_labeled"
 # TEST_FILE = "../data/test_set_x.csv"
-PREDICTION = "predictions_3.csv"
+PREDICTION = "predictions.csv"
 
 
 
@@ -32,9 +32,12 @@ clf.fit(X_train, y_train)
 
 # prediction
 predictions = clf.predict(X_test)
-print accuracy_score(y_test, predictions)
-cm = confusion_matrix(y_test, predictions)
-print(cm)
+
+
+# print accuracy_score(y_test, predictions)
+# cm = confusion_matrix(y_test, predictions)
+# print(cm)
+
 # print len(X_test)
 # with open(PREDICTION, 'w+') as prediction_writer:
 #     cnt = 0

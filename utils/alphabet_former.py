@@ -1,7 +1,7 @@
 # coding=utf-8
-#some code to separate the language from one another in order to better encode them
 import math
-X = open("../data/train_set_x_cleaned_nothing.csv","r")
+X = open("../data/dataset_labeled","r")
+X_2 = open("../data/test_set_x.csv","r")
 Y = open("../data/train_set_y.csv","r")
 #get rid of the first line
 Slovak = []
@@ -10,12 +10,13 @@ Spanish = []
 German = []
 Polish = []
 All = []
+Test = []
 X.readline()
 Y.readline()
 #use 1/5 of the data as validation set
 for line in X:
     lang = ((Y.readline()).split(","))[1]
-    line = (line.split(",")[1])
+    line = line.split(",")[1]
     #0: Slovak, 1: French, 2: Spanish, 3: German, 4: Polish
     All.append(line)
     if(int(lang) == 0):
@@ -30,11 +31,13 @@ for line in X:
         Polish.append(line)
     else:
         print ("Alien language detected")
-
+for line in X_2:
+    line = line.split(",")[1]
+    Test.append(line)
 #the splitted format will include line number
 #build alphabet for each language and calculate the relative frequency of each letter
 
-# Sl, Fr, Sp, Ge, Po = {}
+
 def alphabet_build(lan_list):
     lan_dict = {}
     for line in lan_list:
@@ -45,9 +48,9 @@ def alphabet_build(lan_list):
             if char not in lan_dict:
                 lan_dict[char] = 1
     #total = 1.00*sum(lan_dict.values())
-    for key, value in lan_dict.items():
-        if lan_dict[key] <= 10:
-            lan_dict.pop(key)
+    # for key, value in lan_dict.items():
+    #     if lan_dict[key] <= 10:
+    #         lan_dict.pop(key)
     print len(lan_dict)
     return lan_dict
 
@@ -57,6 +60,7 @@ def index_builder():
     Sp = alphabet_build(Spanish)
     Ge = alphabet_build(German)
     Po = alphabet_build(Polish)
+    Te = alphabet_build(Test)
 
     dict_merged = dict(Sl.items()+Fr.items()+Sp.items()+Ge.items()+Po.items())
     # print len(dict_merged)
@@ -87,6 +91,14 @@ def idf_builder(letter_index):
 
     print idf_list
     return idf_list
+
+def alphabet_builder():
+    Sl = alphabet_build(Slovak)
+    Fr = alphabet_build(French)
+    Sp = alphabet_build(Spanish)
+    Ge = alphabet_build(German)
+    Po = alphabet_build(Polish)
+    return [Sl, Fr,Sp, Ge, Po]
 
 
 

@@ -1,5 +1,6 @@
+# coding=utf-8
 count = 0
-thefile = open('train_set_x_cleaned.csv', 'rb')
+thefile = open('train_set_x_cleaned_nothing.csv', 'rb')
 while True:
     buffer = thefile.read(8192*1024)
     if not buffer:
@@ -15,16 +16,20 @@ writefile_test = open('test_set_0.2','w+')
 whole_file = open('dataset_labeled','w+')
 write_count = 0
 while write_count<0.8 * count:
-    linex = read_x.readline()
+    linex = read_x.readline().decode('utf-8')
     liney = read_y.readline()
-    writefile_train.writelines(liney.replace('\n','').split(',')[1] + ',' + linex.split(',')[1])
-    whole_file.writelines(liney.replace('\n','').split(',')[1] + ',' + linex.split(',')[1])
+    line = unicode(liney.replace('\n','').split(',')[1]) + u',' + linex.split(',')[1]
+    line = line.encode('utf8')
+    writefile_train.writelines(line)
+    whole_file.writelines(line)
     write_count += 1
 while write_count <=count:
-    linex = read_x.readline()
+    linex = read_x.readline().decode('utf-8')
     liney = read_y.readline()
-    writefile_test.writelines(liney.replace('\n', '').split(',')[1] + ',' + linex.split(',')[1])
-    whole_file.writelines(liney.replace('\n', '').split(',')[1] + ',' + linex.split(',')[1])
+    line = unicode(liney.replace('\n','').split(',')[1]) + u',' + linex.split(',')[1]
+    line = line.encode('utf8')
+    writefile_test.writelines(line)
+    whole_file.writelines(line)
     write_count += 1
     
 read_x.close()
