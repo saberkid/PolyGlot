@@ -1,9 +1,10 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
-Created on Sun Oct 22 14:53:58 2017
-
-@author: Ksenia
+This is the algorithm used to create a rudimentary decision tree
+differentiating only between French and Spanish.
+This can be generalized further if necessary- we chose to focus on KNN as our nonlinear method
+but this is included in the report as a proof of concept.
 """
 
 import math
@@ -32,11 +33,37 @@ def ConditionalEntropy(posT, negT, posN, negN):
     output = (SumT/SumAll)*(-1*(posT/SumT)*math.log(posT/SumT,2)-(negT/SumT)*math.log(negT/SumT,2))+(SumN/SumAll)*(-1*(posN/SumN)*math.log(posN/SumN,2)-(negN/SumN)*math.log(negN/SumN,2))
     return output
 
+#Calculates the information gain
 def IG(posT, negT, posN, negN):
     entropy = Entropy(posT+posN, negT+negN)
     conditionalEntropy = ConditionalEntropy(posT,negT,posN,negN)
     return (entropy-conditionalEntropy)
 
+#Extracts the Spanish and French entries from a dataset
+def SplitLanguage(dataset):
+    
+    French=[]
+    Spanish=[]
+    for lineY in dataset:
+    
+        lang = lineY[0]
+    #    text = (lineY.split(",")[1])
+        text = lineY
+        
+        chars = text.split()
+    
+
+                        
+        if lang == '1':
+            French.append(text)
+        if lang == '2':
+            Spanish.append(text)
+    return [French,Spanish]
+
+
+#Takes French and Spanish datasets as entries, as well as the past keys used
+#Uses Information Gain to choose the best feature for separation
+#Then separates the set with the best separation feature.
 def MakeDictionary(French,Spanish,pastkeys):
 
             
@@ -168,31 +195,21 @@ def MakeDictionary(French,Spanish,pastkeys):
 
 
     
-def SplitLanguage(dataset):
-    
-    French=[]
-    Spanish=[]
-    for lineY in dataset:
-    
-        lang = lineY[0]
-    #    text = (lineY.split(",")[1])
-        text = lineY
-        
-        chars = text.split()
-    
 
-                        
-        if lang == '1':
-            French.append(text)
-        if lang == '2':
-            Spanish.append(text)
-    return [French,Spanish]
     
 
 import numpy as np
 import math as m
 import random as ran
 NEW_TRAIN_X = open("train08.csv","r")
+
+#X = NEW_TRAIN_X.readlines()
+#Y = NEW_TRAIN_Y.readlines()
+#NEW_TRAIN_X.close()
+#NEW_TRAIN_Y.close()
+#NEW_TRAIN_X = open("train_set_x.csv","r")
+#NEW_TRAIN_Y = open("train_set_y.csv","r")
+#alphabet for all languages
 
 French = []
 Spanish = []
@@ -434,5 +451,6 @@ TA=0
 FA=FC/(FC+FN)
 SA=SC/(SC+SN)
 TA=(FC+SC)/(FC+SC+FN+SN)
-    
+        
+
     
