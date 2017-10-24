@@ -5,7 +5,7 @@ README for PolyGlotTeam:
 
 The following instructions provide guidelines for running each of the algorithms discussed in the written report. 
 
-Full dataset preprocessed for each individual model is available on the following [github repository](https://github.com/saberkid/PolyGlot/tree/master)
+Full dataset preprocessed for each individual model is available on the PolyGlot github repository[here](https://github.com/saberkid/PolyGlot/tree/master)
 
 ## 1. Baseline linear classification algorithm, fully implemented
 ### Naive Bayes instructions (‘naive bayes’ subfolder):
