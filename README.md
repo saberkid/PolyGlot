@@ -4,8 +4,8 @@ Models for language indentification
 README for PolyGlotTeam:
 
 The following instructions provide guidelines for running each of the algorithms discussed in the written report. 
-Full dataset preprocessed for each individual model is available on the following github repository:
-https://github.com/saberkid/PolyGlot/tree/master
+
+Full dataset preprocessed for each individual model is available on the following [github repository](https://github.com/saberkid/PolyGlot/tree/master)
 
 ## 1. Baseline linear classification algorithm, fully implemented
 ### Naive Bayes instructions (‘naive bayes’ subfolder):
@@ -23,7 +23,7 @@ https://github.com/saberkid/PolyGlot/tree/master
 Note: KNN takes a long time to run and takes up a large amount of memory space, some computers might experience memory error
 
 ## 3. Other methods: 
-Required packages: keras 2.0.6, numpy 1.12.1, sklearn 
+Required packages: [keras 2.0.6](https://keras.io/), [numpy 1.12.1](http://www.numpy.org/), [sklear](http://scikit-learn.org/stable/) 
 ### ANN instructions (‘ann’ subfolder):
 1.	Run: python NN.py
 2.	For test data, remove the comment at the end of the script
